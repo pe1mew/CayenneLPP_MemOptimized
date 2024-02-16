@@ -1,4 +1,6 @@
 #include "CayenneLPP.h"
+#include <stdlib.h>
+#include <string.h>
 
 CayenneLPP::CayenneLPP(uint8_t size) : maxsize(size) {
     buffer = (uint8_t*) malloc(size);
