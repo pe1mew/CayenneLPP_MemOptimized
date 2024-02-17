@@ -1,0 +1,10 @@
+{
+    "name":"CayenneLPP",
+    "build": {
+        "srcDir": "src/",
+        "flags": [
+            "-I src/",
+            "-std=gnu++11"
+        ]
+    }
+}
