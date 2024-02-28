@@ -28,43 +28,67 @@ namespace CayenneLPP
  */
 #define CAYENNE_MAX_UNION_SIZE (sizeof(GPSCoord_t))
 
-    // Represents a raw byte value, typically used for byte-oriented data operations.
+    /***
+     *  Represents a raw byte value, typically used for byte-oriented data operations.
+    */
     typedef uint8_t RawByteVal_t;
 
-    // Represents a single bit value, often used in bit manipulation or status indication.
+    /***
+     * Represents a single bit value, often used in bit manipulation or status indication.
+    */ 
     typedef uint8_t RawBitVal_t;
 
     // Represents a 16-bit word, commonly used for medium-range integer values.
     typedef uint16_t Word16Val_t;
 
-    // Represents a 32-bit word, used for larger integer values or raw data.
+    /***
+     * Represents a 32-bit word, used for larger integer values or raw data.
+    */
     typedef uint32_t Word32Val_t;
 
-    // Represents a 32-bit floating-point number, used for precise numerical values.
+    /*** 
+     * Represents a 32-bit floating-point number, used for precise numerical values.
+    */
     typedef float Float32Val_t;
 
-    // Represents a digital GPIO (General Purpose Input/Output) value, for digital pin states.
+    /***
+     * Represents a digital GPIO (General Purpose Input/Output) value, for digital pin states.
+    */
     typedef uint8_t DigitalGPIOVal_t;
 
-    // Represents a presence detection value, typically indicating detection (1) or absence (0).
+    /***
+     * Represents a presence detection value, typically indicating detection (1) or absence (0).
+    */
     typedef uint8_t PresenceVal_t;
 
-    // Represents a luminosity value, used for light intensity measurements.
+    /***
+     * Represents a luminosity value, used for light intensity measurements.
+    */ 
     typedef uint16_t LuminosityVal_t;
 
-    // Represents an analog GPIO value, for analog pin readings.
+    /***
+     * Represents an analog GPIO value, for analog pin readings.
+    */
     typedef uint16_t AnalogGPIOVal_t;
 
-    // Represents a temperature measurement, typically in a scaled format for precision.
+    /***
+     * Represents a temperature measurement, typically in a scaled format for precision.
+    */
     typedef uint16_t TemperatureVal_t;
 
-    // Represents relative humidity as a percentage, in a scaled format for precision.
+    /***
+     * Represents relative humidity as a percentage, in a scaled format for precision.
+    */
     typedef uint16_t RelativeHumidity_t;
 
-    // Represents barometric pressure, typically in a scaled format to represent hPa values.
+    /***
+     * Represents barometric pressure, typically in a scaled format to represent hPa values.
+    */
     typedef uint16_t BarometricPressure_t;
 
-    // Represents 3-axis gyroscopic values, for orientation or rotational motion detection.
+    /***
+     * Represents 3-axis gyroscopic values, for orientation or rotational motion detection.
+    */
     typedef struct
     {
         uint16_t x;
@@ -72,7 +96,9 @@ namespace CayenneLPP
         uint16_t z;
     } GyroVal_t;
 
-    // Represents 3-axis acceleration values, for motion or orientation detection.
+    /***
+     * Represents 3-axis acceleration values, for motion or orientation detection.
+    */
     typedef struct
     {
         uint16_t x;
@@ -80,17 +106,21 @@ namespace CayenneLPP
         uint16_t z;
     } AcceleroVal_t;
 
-    // Represents GPS coordinates (latitude, longitude) and altitude, with compact bit field packing.
+    /***
+     * Represents GPS coordinates (latitude, longitude) and altitude, with compact bit field packing.
+    */
 #pragma pack(push, 1)
     typedef struct
     {
-        uint32_t latitude : 24;  // Latitude, scaled to store fractional degrees
-        uint32_t longitude : 24; // Longitude, scaled to store fractional degrees
-        uint32_t altitude : 24;  // Altitude, scaled to store values with precision
+        uint32_t latitude : 24;  /* Latitude, scaled to store fractional degrees */
+        uint32_t longitude : 24; /* Longitude, scaled to store fractional degrees */
+        uint32_t altitude : 24;  /* Altitude, scaled to store values with precision */
     } GPSCoord_t;
 #pragma pack(pop)
 
-    // Represents a union of all possible measurement values, allowing for diverse data types.
+    /***
+     * Represents a union of all possible measurement values, allowing for diverse data types.
+    */
     typedef union
     {
         RawBitVal_t RawBit;
@@ -162,7 +192,7 @@ namespace CayenneLPP
     static inline Measurement_t SetDigitalOutput(const uint8_t digital_output_val)
     {
         MeasurementData_t Data = {.DigitalGPIO = digital_output_val};
-        return {.type = MEASUREMENT_TYPE_DIGITAL_OUTPUT, .val = Data};
+        return {MEASUREMENT_TYPE_DIGITAL_OUTPUT, Data};
     }
 
     /**
@@ -180,7 +210,7 @@ namespace CayenneLPP
     static inline Measurement_t SetDigitalInput(const uint8_t digital_input_val)
     {
         MeasurementData_t Data = {.DigitalGPIO = digital_input_val};
-        return {.type = MEASUREMENT_TYPE_DIGITAL_INPUT, .val = Data};
+        return {MEASUREMENT_TYPE_DIGITAL_INPUT, Data};
     }
 
     /**
@@ -199,7 +229,7 @@ namespace CayenneLPP
     static inline Measurement_t SetPresence(const uint8_t presence_val)
     {
         MeasurementData_t Data = {.Presence = presence_val};
-        return {.type = MEASUREMENT_TYPE_PRESENCE, .val = Data};
+        return {MEASUREMENT_TYPE_PRESENCE, Data};
     }
 
     /**
@@ -218,7 +248,7 @@ namespace CayenneLPP
     static inline Measurement_t SetLuminosity(const uint16_t luminosity_val)
     {
         MeasurementData_t Data = {.Luminosity = luminosity_val};
-        return {.type = MEASUREMENT_TYPE_LUMINOSITY, .val = Data};
+        return {MEASUREMENT_TYPE_LUMINOSITY, Data};
     }
 
     /**
@@ -237,7 +267,7 @@ namespace CayenneLPP
     static inline Measurement_t SetAnalogOutput(const float analog_output_val)
     {
         MeasurementData_t Data = {.AnalogGPIO = uint16_t((analog_output_val * 100))};
-        return {.type = MEASUREMENT_TYPE_ANALOG_OUTPUT, .val = Data};
+        return { MEASUREMENT_TYPE_ANALOG_OUTPUT, Data};
     }
 
     /**
@@ -256,7 +286,7 @@ namespace CayenneLPP
     static inline Measurement_t SetAnalogInput(const float analog_input_val)
     {
         MeasurementData_t Data = {.AnalogGPIO = uint16_t((analog_input_val * 100))};
-        return {.type = MEASUREMENT_TYPE_ANALOG_INPUT, .val = Data};
+        return { MEASUREMENT_TYPE_ANALOG_INPUT, Data};
     }
 
     /**
@@ -276,7 +306,7 @@ namespace CayenneLPP
     static inline Measurement_t SetTemperature(const float temperature_val)
     {
         MeasurementData_t Data = {.Temperature = uint16_t(temperature_val * 10)};
-        return {.type = MEASUREMENT_TYPE_TEMPERATURE, .val = Data};
+        return { MEASUREMENT_TYPE_TEMPERATURE, Data};
     }
 
     /**
@@ -296,7 +326,7 @@ namespace CayenneLPP
     static inline Measurement_t SetRelativeHumidity(const float humidity_val)
     {
         MeasurementData_t Data = {.RelativeHumidity = uint16_t(humidity_val * 2)};
-        return {.type = MEASUREMENT_TYPE_RELATIVE_HUMIDITY, .val = Data};
+        return { MEASUREMENT_TYPE_RELATIVE_HUMIDITY, Data};
     }
 
     /**
@@ -316,7 +346,7 @@ namespace CayenneLPP
     static inline Measurement_t SetBarometricPressure(const float barometric_pressure_val)
     {
         MeasurementData_t Data = {.BarometricPressure = uint16_t(barometric_pressure_val * 10)};
-        return {.type = MEASUREMENT_TYPE_BAROMETRIC_PRESSURE, .val = Data};
+        return { MEASUREMENT_TYPE_BAROMETRIC_PRESSURE, Data};
     }
 
     /**
@@ -339,7 +369,7 @@ namespace CayenneLPP
     {
         const AcceleroVal_t accelero_val = {.x = uint16_t(x * 1000), .y = uint16_t(y * 1000), .z = uint16_t(z * 1000)};
         const MeasurementData_t Data = {.Acceleration = accelero_val};
-        return {.type = MEASUREMENT_TYPE_ACCELERATION, .val = Data};
+        return { MEASUREMENT_TYPE_ACCELERATION, Data};
     }
 
     /**
@@ -362,7 +392,7 @@ namespace CayenneLPP
     {
         const GyroVal_t gyro_val = {.x = uint16_t(x * 100), .y = uint16_t(y * 100), .z = uint16_t(z * 100)};
         const MeasurementData_t Data = {.Gyro = gyro_val};
-        return {.type = MEASUREMENT_TYPE_GYRO, .val = Data};
+        return { MEASUREMENT_TYPE_GYRO, Data};
     }
 
     /**
@@ -384,7 +414,7 @@ namespace CayenneLPP
     {
         const GPSCoord_t gps_val = {.latitude = uint32_t(latitude * 10000), .longitude = uint32_t(longitude * 10000), .altitude = uint32_t(altitude * 100)};
         const MeasurementData_t Data = {.GPS = gps_val};
-        return {.type = MEASUREMENT_TYPE_GPS, .val = Data};
+        return { MEASUREMENT_TYPE_GPS, Data};
     }
     /**
      * @brief Sets a raw bit value in a measurement.
@@ -431,7 +461,7 @@ namespace CayenneLPP
     {
         const RawByteVal_t raw_byte = raw_byte_val;
         const MeasurementData_t Data = {.RawByte = raw_byte};
-        return {.type = MEASUREMENT_TYPE_RAWBYTE, Data};
+        return { MEASUREMENT_TYPE_RAWBYTE, Data};
     }
 
     /**
@@ -449,7 +479,7 @@ namespace CayenneLPP
     {
         const Word16Val_t word16 = word16_val;
         const MeasurementData_t Data = {.Word16 = word16};
-        return {.type = MEASUREMENT_TYPE_RAWWORD16, Data};
+        return { MEASUREMENT_TYPE_RAWWORD16, Data};
     }
 
     /**
@@ -467,7 +497,7 @@ namespace CayenneLPP
     {
         const Word32Val_t word32 = word32_val;
         const MeasurementData_t Data = {.Word32 = word32};
-        return {.type = MEASUREMENT_TYPE_RAWWORD32, Data};
+        return { MEASUREMENT_TYPE_RAWWORD32, Data};
     }
 
     /**
@@ -486,7 +516,7 @@ namespace CayenneLPP
     {
         const Float32Val_t float32 = float32_val;
         const MeasurementData_t Data = {.Float32 = float32};
-        return {.type = MEASUREMENT_TYPE_RAWFLOAT32, Data};
+        return { MEASUREMENT_TYPE_RAWFLOAT32, Data};
     }
 }
 #endif

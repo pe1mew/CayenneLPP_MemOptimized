@@ -1,7 +1,11 @@
 #include "gmock/gmock.h"
+#include "CayenneLPP.hpp"
 
-TEST(SOME_TEST_CLASS, SOME_TEST) {
-EXPECT_EQ(1,1);
+TEST(maxsizeTEST, Handles0input) {
+    const uint8_t testval = 1;
+    CayenneLPP::Measurement_t result = CayenneLPP::SetDigitalOutput(testval);
+    EXPECT_EQ(result.val.DigitalGPIO, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_DIGITAL_OUTPUT);
 }
 
 int main(int argc, char** argv) {

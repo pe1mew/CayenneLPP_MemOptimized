@@ -1,8 +1,3 @@
-if (CAYENNELPP_BUILD_TESTS)
-project(CayenneLPP_tests LANGUAGES C CXX)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_C_STANDARD 99)
-
 enable_testing()
 
 include(CTest)
@@ -14,6 +9,7 @@ FetchContent_Declare(
   GIT_TAG        v1.14.x
 )
 
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 # CMake 3.14+
 FetchContent_MakeAvailable(googletest)
 
@@ -21,9 +17,10 @@ set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(memorysize_test src/test_memorysize.cpp)
 
+target_link_libraries(memorysize_test gtest gmock CayenneLPP)
+
 add_test(
         NAME memorysize_test
         WORKING_DIRECTORY ${TEST_DIR}
         COMMAND memorysize_test)
         
-endif()
