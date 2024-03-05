@@ -1,5 +1,6 @@
 #ifndef _CAYENNE_LPP_H_
 #define _CAYENNE_LPP_H_
+#include <stdint.h>
 
 #define LPP_DIGITAL_INPUT       0       // 1 byte
 #define LPP_DIGITAL_OUTPUT      1       // 1 byte
