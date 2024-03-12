@@ -135,15 +135,65 @@ TEST(SetTemperaturetest, Valueinput) {
 
  TEST(SetRawBittest, Valueinput) {
     uint8_t testval = 116;
-    CayenneLPP::Measurement_t result = CayenneLPP::SetGyro(testval);
-    EXPECT_EQ(result.val.Gyro, testval);
-    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_GYRO);
-    testval = 1;
-    result = CayenneLPP::SetGyro(testval);
-    EXPECT_EQ(result.val.Gyro, testval);
-    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_GYRO);
+    CayenneLPP::Measurement_t result = CayenneLPP::SetRawBit(testval);
+    EXPECT_EQ(result.val.RawBit, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWBIT_1); 
+    testval = 117;
+    result = CayenneLPP::SetRawBit(testval);
+    EXPECT_EQ(result.val.RawBit, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWBIT_1);
  }
 
+  TEST(SetRawBytetest, Valueinput) {
+    uint8_t testval = 5;
+    CayenneLPP::Measurement_t result = CayenneLPP::SetRawByte(testval);
+    EXPECT_EQ(result.val.RawByte, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWBYTE); 
+    testval = 1;
+    result = CayenneLPP::SetRawByte(testval);
+    EXPECT_EQ(result.val.RawByte, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWBYTE);
+ }
+
+ TEST(SetWord16test, Valueinput) {
+    uint16_t testval = 6;
+    CayenneLPP::Measurement_t result = CayenneLPP::SetWord16(testval);
+    EXPECT_EQ(result.val.Word16, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWWORD16);
+    testval = 1; 
+    result = CayenneLPP::SetWord16(testval);
+    EXPECT_EQ(result.val.Word16, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWWORD16);
+ }
+
+ TEST(SetWord32test, Valueinput) {
+    Word32Val_t testval = 7;
+    CayenneLPP::Measurement_t result = CayenneLPP::SetWord32(testval);
+    EXPECT_EQ(result.val.Word32, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWWORD32);
+    testval = 1; 
+    result = CayenneLPP::SetWord32(testval);
+    EXPECT_EQ(result.val.Word32, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWWORD32);
+ }
+
+ TEST(SetFloat32test, Valueinput) {
+    Float32Val_t testval = 7;
+    CayenneLPP::Measurement_t result = CayenneLPP::SetFloat32(testval);
+    EXPECT_EQ(result.val.Float32, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWFLOAT32);
+    testval = 1; 
+    result = CayenneLPP::SetFloat32(testval);
+    EXPECT_EQ(result.val.Float32, testval);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWFLOAT32);
+ }
+
+ TEST(MeasurementSizeTest, Valueinput) {
+    CayenneMeasurementType_t testval = 1;
+    Cayenne::Measurmentdata_t result = CayenneLPP::DetermineMeasurementSize(testval);
+    EXPECT_EQ(result.val.MEASUREMENT_TYPE_DIGITAL_OUTPUT, tesval);
+    EXPECT_EQ(result.type, CayenneLPP::DigitalGPIOVal_t)
+ }
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleMock(&argc, argv);

@@ -23,17 +23,17 @@
 namespace CayenneLPP
 {
 
-/**
+/*!
  * \brief The max size of the union
  */
 #define CAYENNE_MAX_UNION_SIZE (sizeof(GPSCoord_t))
 
-    /***
+    /*!
      *  Represents a raw byte value, typically used for byte-oriented data operations.
     */
     typedef uint8_t RawByteVal_t;
 
-    /***
+    /*!
      * Represents a single bit value, often used in bit manipulation or status indication.
     */ 
     typedef uint8_t RawBitVal_t;
@@ -86,7 +86,7 @@ namespace CayenneLPP
     */
     typedef uint16_t BarometricPressure_t;
 
-    /***
+    /*!
      * Represents 3-axis gyroscopic values, for orientation or rotational motion detection.
     */
     typedef struct
