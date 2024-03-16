@@ -124,7 +124,7 @@ TEST(SetTemperaturetest, Valueinput) {
     longitude = 2.1;
     altitude = 10.7;
     CayenneLPP::Measurement_t result = CayenneLPP::SetGPS(latitude, longitude, altitude);
-    CayenneLPP::GPSCoord_t endresult = {latitude*10000, longitude*10000, altitude*100};
+    CayenneLPP::GPSCoord_t endresult = {uint32_t(latitude*10000), uint32_t(longitude*10000), uint32_t(altitude*100)};
     EXPECT_EQ(result.val.GPS.latitude, endresult.latitude);
     EXPECT_EQ(result.val.GPS.longitude, endresult.longitude);
     EXPECT_EQ(result.val.GPS.altitude, endresult.altitude);
