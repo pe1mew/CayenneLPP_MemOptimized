@@ -12,8 +12,8 @@ TEST(DigitalOutputtest, Valueinput) {
     EXPECT_EQ(result.val.DigitalGPIO, testval);
     EXPECT_EQ(result.val.RawBytes[0], testval);
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_DIGITAL_OUTPUT);
-    testval = 2;
-    CayenneLPP::SetDigitalOutput(testval);
+    testval = 0;
+    result = CayenneLPP::SetDigitalOutput(testval);
     EXPECT_EQ(result.val.DigitalGPIO, testval);
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_DIGITAL_OUTPUT);
 }
@@ -32,7 +32,7 @@ TEST(DigitalInputtest, Valueinput) {
 TEST(SetPresencetest, Valueinput) {
     uint8_t testval = 102;
     CayenneLPP::Measurement_t result = CayenneLPP::SetPresence(testval);
-    EXPECT_EQ(result.val.Prescence, testval);
+    EXPECT_EQ(result.val.Presence, testval);
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_PRESENCE);
     testval = 1;
     result = CayenneLPP::SetPresence(testval);
@@ -52,96 +52,106 @@ TEST(SetLuminositytest, Valueinput) {
 }
 
 TEST(SetAnalogoutputtest, Valueinput) {
-    uint16_t testval = 3;
+    float testval = 0.2;
     CayenneLPP::Measurement_t result = CayenneLPP::SetAnalogOutput(testval);
-    EXPECT_EQ(result.val.AnalogGPIO, testval);
+    EXPECT_EQ(result.val.AnalogGPIO, uint16_t(testval*100));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_ANALOG_OUTPUT);
-    testval = 1;
+    testval = 5.1;
     result = CayenneLPP::SetAnalogOutput(testval);
-    EXPECT_EQ(result.val.AnalogGPIO, testval);
+    EXPECT_EQ(result.val.AnalogGPIO, uint16_t(testval*100));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_ANALOG_OUTPUT);
 }
 
 TEST(SetAnaloginputtest, Valueinput) {
-    uint16_t testval = 2;
+    float testval = 0.2;
     CayenneLPP::Measurement_t result = CayenneLPP::SetAnalogInput(testval);
-    EXPECT_EQ(result.val.AnalogGPIO, testval);
+    EXPECT_EQ(result.val.AnalogGPIO, uint16_t(testval*100));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_ANALOG_INPUT);
-    testval = 1;
+    testval = 5.1;
     result = CayenneLPP::SetAnalogInput(testval);
-    EXPECT_EQ(result.val.AnalogGPIO, testval);
+    EXPECT_EQ(result.val.AnalogGPIO, uint16_t(testval*100));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_ANALOG_INPUT);
 }
 
 TEST(SetTemperaturetest, Valueinput) {
-    uint16_t testval = 103;
+    float testval = 10.3;
     CayenneLPP::Measurement_t result = CayenneLPP::SetTemperature(testval);
-    EXPECT_EQ(result.val.Temperature, testval);
+    EXPECT_EQ(result.val.Temperature, (testval*10));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_TEMPERATURE);
-    testval = 1;
+    testval = 20.1;
     result = CayenneLPP::SetTemperature(testval);
-    EXPECT_EQ(result.val.Temperature, testval);
+    EXPECT_EQ(result.val.Temperature, (testval*10));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_TEMPERATURE);
  }
 
  TEST(SetRelativeHumiditytest, Valueinput) {
-    uint16_t testval = 104;
+    float testval = 1000.50;
     CayenneLPP::Measurement_t result = CayenneLPP::SetRelativeHumidity(testval);
-    EXPECT_EQ(result.val.RelativeHumidity, testval);
+    EXPECT_EQ(result.val.RelativeHumidity, uint16_t(testval*2));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RELATIVE_HUMIDITY);
-    testval = 1;
+    testval = 1100.2;
     result = CayenneLPP::SetRelativeHumidity(testval);
-    EXPECT_EQ(result.val.RelativeHumidity, testval);
+    EXPECT_EQ(result.val.RelativeHumidity, uint16_t(testval*2));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RELATIVE_HUMIDITY);
  }
 
  TEST(SetBarometricPressuretest, Valueinput) {
-    uint16_t testval = 115;
+    float testval = 13.45;
     CayenneLPP::Measurement_t result = CayenneLPP::SetBarometricPressure(testval);
-    EXPECT_EQ(result.val.BarometricPressure, testval);
+    EXPECT_EQ(result.val.BarometricPressure, uint16_t(testval*10));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_BAROMETRIC_PRESSURE);
-    testval = 1;
+    testval = 10.58;
     result = CayenneLPP::SetBarometricPressure(testval);
-    EXPECT_EQ(result.val.BarometricPressure, testval);
+    EXPECT_EQ(result.val.BarometricPressure, uint16_t(testval*10));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_BAROMETRIC_PRESSURE);
  }
 
  TEST(SeteAccelerationtest, Valueinput) {
-    CayenneLPP::AcceleroVal_t testval = {.x = 10.2, .y = 5.7, .z = 10.4};
-    CayenneLPP::Measurement_t result = CayenneLPP::SetAcceleration(testval);
-    EXPECT_EQ(result.val.Acceleration.x, (testval.x*1000));
-    EXPECT_EQ(result.val.Acceleration.y, (testval.y*1000));
-    EXPECT_EQ(result.val.Acceleration.z, (testval.z*1000));
+   float x, y ,z;
+    x = 10.2;
+    y = 5.7;
+    z = 10.4;
+    CayenneLPP::Measurement_t result = CayenneLPP::SetAcceleration(x, y, z);
+    EXPECT_EQ(result.val.Acceleration.x, (x*1000));
+    EXPECT_EQ(result.val.Acceleration.y, (y*1000));
+    EXPECT_EQ(result.val.Acceleration.z, (z*1000));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_ACCELERATION);
  }
 
  TEST(SetGPStest, Valueinput) {
-    CayenneLPP::GPSCoord_t testval = {.x = 52.4, .y = 2.1, .z = 86.7};
-    CayenneLPP::Measurement_t result = CayenneLPP::SetGPS(testval);
-    EXPECT_EQ(result.val.GPS.x, (testval.x*10000));
-    EXPECT_EQ(result.val.GPS.y, (testval.y*10000));
-    EXPECT_EQ(result.val.GPS.z, (testval.z*10000));
+    float latitude, longitude, altitude;
+    latitude = 52.4;
+    longitude = 2.1;
+    altitude = 10.7;
+    CayenneLPP::Measurement_t result = CayenneLPP::SetGPS(latitude, longitude, altitude);
+    CayenneLPP::GPSCoord_t endresult = {latitude*10000, longitude*10000, altitude*100};
+    EXPECT_EQ(result.val.GPS.latitude, endresult.latitude);
+    EXPECT_EQ(result.val.GPS.longitude, endresult.longitude);
+    EXPECT_EQ(result.val.GPS.altitude, endresult.altitude);
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_GPS);
  }
 
  TEST(SetGyrotest, Valueinput) {
-    CayenneLPP::Gyroval_t testval = {.x = 4.6, .y = 2.2, .z = 8.6};
-    CayenneLPP::Measurement_t result = CayenneLPP::SetGyro(testval);
-    EXPECT_EQ(result.val.Gyro.x, (testval.x*100));
-    EXPECT_EQ(result.val.Gyro.y, (testval.y*100));
-    EXPECT_EQ(result.val.Gyro.z, (testval.z*100));
+    float x, y ,z;
+    x = 4.6;
+    y = 2.2;
+    z = 8.6;
+    CayenneLPP::Measurement_t result = CayenneLPP::SetGyro(x, y, z);
+    EXPECT_EQ(result.val.Gyro.x, uint16_t(x*100));
+    EXPECT_EQ(result.val.Gyro.y, uint16_t(y*100));
+    EXPECT_EQ(result.val.Gyro.z, uint16_t(z*100));
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_GYRO);
  }
 
  TEST(SetRawBittest, Valueinput) {
-    uint8_t testval = 116;
-    CayenneLPP::Measurement_t result = CayenneLPP::SetRawBit(testval);
+    uint8_t testval = 1;
+    CayenneLPP::Measurement_t result;
+    result = CayenneLPP::SetRawBit(1, result);
     EXPECT_EQ(result.val.RawBit, testval);
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWBIT_1); 
-    testval = 117;
-    result = CayenneLPP::SetRawBit(testval);
-    EXPECT_EQ(result.val.RawBit, testval);
-    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWBIT_1);
+    result = CayenneLPP::SetRawBit(testval, result);
+    EXPECT_EQ(result.val.RawBit, 3);
+    EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWBIT_2);
  }
 
   TEST(SetRawBytetest, Valueinput) {
@@ -167,7 +177,7 @@ TEST(SetTemperaturetest, Valueinput) {
  }
 
  TEST(SetWord32test, Valueinput) {
-    Word32Val_t testval = 7;
+    CayenneLPP::Word32Val_t testval = 7;
     CayenneLPP::Measurement_t result = CayenneLPP::SetWord32(testval);
     EXPECT_EQ(result.val.Word32, testval);
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWWORD32);
@@ -178,7 +188,7 @@ TEST(SetTemperaturetest, Valueinput) {
  }
 
  TEST(SetFloat32test, Valueinput) {
-    Float32Val_t testval = 7;
+    CayenneLPP::Float32Val_t testval = 7;
     CayenneLPP::Measurement_t result = CayenneLPP::SetFloat32(testval);
     EXPECT_EQ(result.val.Float32, testval);
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWFLOAT32);
@@ -186,13 +196,6 @@ TEST(SetTemperaturetest, Valueinput) {
     result = CayenneLPP::SetFloat32(testval);
     EXPECT_EQ(result.val.Float32, testval);
     EXPECT_EQ(result.type, CayenneLPP::MEASUREMENT_TYPE_RAWFLOAT32);
- }
-
- TEST(MeasurementSizeTest, Valueinput) {
-    CayenneMeasurementType_t testval = 1;
-    Cayenne::Measurmentdata_t result = CayenneLPP::DetermineMeasurementSize(testval);
-    EXPECT_EQ(result.val.MEASUREMENT_TYPE_DIGITAL_OUTPUT, tesval);
-    EXPECT_EQ(result.type, CayenneLPP::DigitalGPIOVal_t)
  }
 
 int main(int argc, char** argv) {
