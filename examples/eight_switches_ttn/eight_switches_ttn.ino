@@ -1,31 +1,3 @@
-# Examples
-
-With this library several examples are provided:
-
-- 8-Switch Monitoring
-
-- Temperature Monitoring
-
-- Accelero Monitoring
-
-- Pressure Monitoring
-
-- Analog Voltage Monitoring
-
-- GPS
-
-
-## 8-Switch Monitoring
-
-This example monitors 8 digitalgpio values for incoming buttonpresses and transmits them to the TTN dashboard afterwards.
-
-### Circuit
-
-![](img/8_sw_example_circuit.jpg)
-
-### Code
-
-```arduino
 #include <TheThingsNetwork.h>
 #include <CayenneLPP.hpp>
 
@@ -106,5 +78,3 @@ void loop()
         encoder.reset();
     }
 }
-
-```

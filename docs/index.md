@@ -16,6 +16,7 @@ Welcome to the CayenneIMP GitHub project. This project is based on the original 
     library.json # Configuration file for PlatformIO build system
     CMakeLists.txt # Configuration file for CMake build system
     mkdocs.yml # Configuration file for mkdocs documentation generation
+    DoxyFile # For the people unfamiliar with mkdocs but familiar with doxygen
 
 ## Dependencies
 

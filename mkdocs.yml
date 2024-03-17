@@ -39,6 +39,7 @@ nav:
   - 'Design choices': "design_choices.md"
   - 'Getting started': "getting_started.md"
   - 'Examples': "examples.md"
+  - 'Tests': "tests.md"
   - 'Library API': "api.md"
   - Doxygen:
     - "Complete Overview": "Doxygen/namespaceCayenneLPP.md"

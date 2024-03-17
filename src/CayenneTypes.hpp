@@ -148,6 +148,7 @@ namespace CayenneLPP
     // Defines the measurement types, corresponding to specific data representations.
     typedef enum
     {
+        MEASUREMENT_TYPE_INVALID = 255,
         MEASUREMENT_TYPE_DIGITAL_OUTPUT = 1,
         MEASUREMENT_TYPE_DIGITAL_INPUT = 0,
         MEASUREMENT_TYPE_RAWBIT_1 = 116,
@@ -180,6 +181,17 @@ namespace CayenneLPP
         CayenneMeasurementType_t type;
         MeasurementData_t val;
     } Measurement_t;
+
+
+    /**
+     * @brief Clears currently used Measurement struct with invalid data
+     * 
+     * @return Measurement_t A Measurement_t structure initialized with invalid data
+     */
+    static inline Measurement_t ResetMeasurement() {
+        MeasurementData_t Data = {.RawByte = 0};
+        return {MEASUREMENT_TYPE_INVALID, Data};
+    }
 
     /**
      * @brief Sets the digital output value.
@@ -438,13 +450,13 @@ namespace CayenneLPP
         uint8_t bitpos = prevMeasurementWasBit ? ((prevMeasurement.type - MEASUREMENT_TYPE_RAWBIT_1) + 1): 0;
         if (prevMeasurementWasBit)
         {
-            prevMeasurement.val.RawBit |= (1 << bitpos);
+            prevMeasurement.val.RawBit |= (raw_bit_val << bitpos);
             bitpos++;
             prevMeasurement.type = static_cast<CayenneMeasurementType_t>((MEASUREMENT_TYPE_RAWBIT_1 + bitpos) - 1);
         }
         else
         {
-            prevMeasurement.val.RawBit = (1 << bitpos);
+            prevMeasurement.val.RawBit = (raw_bit_val << bitpos);
             prevMeasurement.type = MEASUREMENT_TYPE_RAWBIT_1;
         }
         return prevMeasurement;
