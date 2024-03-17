@@ -23,17 +23,17 @@
 namespace CayenneLPP
 {
 
-/**
+/*!
  * \brief The max size of the union
  */
 #define CAYENNE_MAX_UNION_SIZE (sizeof(GPSCoord_t))
 
-    /***
+    /*!
      *  Represents a raw byte value, typically used for byte-oriented data operations.
     */
     typedef uint8_t RawByteVal_t;
 
-    /***
+    /*!
      * Represents a single bit value, often used in bit manipulation or status indication.
     */ 
     typedef uint8_t RawBitVal_t;
@@ -86,7 +86,7 @@ namespace CayenneLPP
     */
     typedef uint16_t BarometricPressure_t;
 
-    /***
+    /*!
      * Represents 3-axis gyroscopic values, for orientation or rotational motion detection.
     */
     typedef struct
@@ -431,12 +431,12 @@ namespace CayenneLPP
     static inline Measurement_t SetRawBit(const uint8_t raw_bit_val, Measurement_t &prevMeasurement)
     {
         const uint8_t prevMeasurementWasBit = (prevMeasurement.type >= MEASUREMENT_TYPE_RAWBIT_1 && prevMeasurement.type < MEASUREMENT_TYPE_RAWBIT_8);
-        uint8_t bitpos = prevMeasurementWasBit ? prevMeasurement.type - MEASUREMENT_TYPE_RAWBIT_1 : 0;
-        if (bitpos)
+        uint8_t bitpos = prevMeasurementWasBit ? ((prevMeasurement.type - MEASUREMENT_TYPE_RAWBIT_1) + 1): 0;
+        if (prevMeasurementWasBit)
         {
             prevMeasurement.val.RawBit |= (1 << bitpos);
             bitpos++;
-            prevMeasurement.type = static_cast<CayenneMeasurementType_t>(MEASUREMENT_TYPE_RAWBIT_1 + bitpos);
+            prevMeasurement.type = static_cast<CayenneMeasurementType_t>((MEASUREMENT_TYPE_RAWBIT_1 + bitpos) - 1);
         }
         else
         {

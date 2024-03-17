@@ -175,5 +175,6 @@ namespace CayenneLPP
         */
         uint8_t cursor;
     };
+    
 }
 #endif
