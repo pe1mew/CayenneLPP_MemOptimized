@@ -153,27 +153,154 @@ void main(){
 const uint8_t CayenneLPP::setMeasurement(const uint8_t channel,
                                          const Measurement_t measurement);
 ```
-The getBuffer function will return a pointer to the internal statically assigned buffer!
+The setMeasurement() function will store a new measurement inside the internal encoder buffer.
 
 #### Error checking
-This function does not have error checking! As the buffer is statically assigned and no parameters are entered in to this function, error checking is not needed.
+This function does dynamically error checks on the internal encoder buffer and the incoming parameters.
 
 #### Parameters
-This function does not accept parameters!
+This function accepts a `channel` and `measurement` parameter.
 
 #### Return
-This function returns a pointer to the internal statically assigned buffer in `uint8_t *` format.
+This function returns the current buffer counter position.
 
 #### Usage
-The function can be used by first initializing the class and then calling the getBuffer() function:
+The function can be used by first initializing the class and then calling the setMeasurement() function:
 ```cpp
 #include <CayenneLPP.hpp>
 #define BUF_SIZE 100
+#define CHANNEL 1
 void main(){
     CayenneLPP::CayenneLPP<BUF_SIZE> encoder;
     
-    uint8_t* buffer = encoder.getBuffer();
-    /* Should print nothing, as the buffer is empty! */
-    Serial.println(buffer);
+    CayenneLPP::Measurement_t measurement = CayenneLPP::SetDigitalOutput(1);
+
+    encoder.setMeasurement(1, measurement); 
+}
+```
+
+## Measurement functions
+
+The `Measurement_t` struct can be used without these functions, though it helps to use these functions as they do not introduce a run-time and space cost (as they are inline).
+
+```cpp
+namespace CayenneLPP
+{
+    static inline Measurement_t SetDigitalOutput(const uint8_t digital_output_val);
+
+    static inline Measurement_t SetDigitalInput(const uint8_t digital_input_val);
+
+    static inline Measurement_t SetPresence(const uint8_t presence_val);
+
+    static inline Measurement_t SetLuminosity(const uint16_t luminosity_val);
+
+    static inline Measurement_t SetAnalogOutput(const float analog_output_val);
+
+    static inline Measurement_t SetAnalogInput(const float analog_input_val);
+
+    static inline Measurement_t SetTemperature(const float temperature_val);
+
+    static inline Measurement_t SetRelativeHumidity(const float humidity_val);
+
+    static inline Measurement_t SetBarometricPressure(const float barometric_pressure_val);
+
+    static inline Measurement_t SetAcceleration(const float x, 
+                                                const float y, 
+                                                const float z);
+
+    static inline Measurement_t SetGyro(const float x, 
+                                        const float y, 
+                                        const float z);
+    
+    static inline Measurement_t SetGPS(const float latitude, 
+                                       const float longitude, 
+                                       const float altitude);
+    
+    static inline Measurement_t SetRawBit(const uint8_t raw_bit_val,            
+                                          Measurement_t &prevMeasurement);
+    
+    static inline Measurement_t SetRawByte(const uint8_t raw_byte_val);
+
+    static inline Measurement_t SetWord16(const uint16_t word16_val);
+
+    static inline Measurement_t SetWord32(const uint32_t word32_val);
+
+    static inline Measurement_t SetFloat32(const float float32_val);
+}
+```
+
+### Usage
+
+All these functions are used the same way **except for the `SetRawBit` function**.
+
+First initialize an empty `Measurement_t` struct and then call the Set... function to fill that struct with your required measurement:
+
+```cpp
+#include <CayenneLPP.hpp>
+
+void main() {
+    CayenneLPP::Measurement_t measurement;
+
+    measurement = CayenneLPP::SetDigitalOutput(1);
+}
+```
+The `Measurement_t` instance can then be reused when added to the encoder buffer:
+
+``` cpp
+#include <CayenneLPP.hpp>
+#define BUF_SIZE 100
+#define DIGITAL_TRANSMIT_CH 0
+#define ANALOG_TRANSMIT_CH 1
+
+void main() {
+    CayenneLPP::CayenneLPP<BUF_SIZE> encoder;
+    CayenneLPP::Measurement_t measurement;
+
+    measurement = CayenneLPP::SetDigitalOutput(1);
+
+    encoder.setMeasurement(DIGITAL_TRANSMIT_CH, measurement);
+
+    measurement = CayenneLPP::SetAnalogOutput(2.3);
+
+    encoder.setMeasurement(ANALOG_TRANSMIT_CH, measurement);
+}
+```
+
+### Usage of the SetRawBit function
+
+The `SetRawBit` function requires one additional step to use, compared to the other helper functions.
+It needs the old version of the measurement struct passed in to the parameters:
+
+``` cpp
+#include <CayenneLPP.hpp>
+#define BUF_SIZE 100
+#define DIGITAL_TRANSMIT_CH 0
+#define ANALOG_TRANSMIT_CH 1
+
+void main() {
+    CayenneLPP::CayenneLPP<BUF_SIZE> encoder;
+    CayenneLPP::Measurement_t measurement;
+    
+    measurement = CayenneLPP::SetRawBit(1, measurement);
+}
+```
+
+Now the real party trick! Adding more bits...
+
+``` cpp
+#include <CayenneLPP.hpp>
+#define BUF_SIZE 100
+#define DIGITAL_TRANSMIT_CH 0
+#define ANALOG_TRANSMIT_CH 1
+
+void main() {
+    CayenneLPP::CayenneLPP<BUF_SIZE> encoder;
+    CayenneLPP::Measurement_t measurement;
+
+    for(uint8_t i = 0; i < 8; i++) {
+        const uint8_t bit_to_set = (i % 2); // Modulo 2 as example, 
+                                            // could be digitalread
+        measurement = CayenneLPP::SetRawBit(bit_to_set, measurement);
+    }
 }
 ```

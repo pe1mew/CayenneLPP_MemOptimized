@@ -15,12 +15,12 @@ FetchContent_MakeAvailable(googletest)
 
 set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(memorysize_test src/test_memorysize.cpp)
+add_executable(test_helpers src/test_helpers.cpp)
 
-target_link_libraries(memorysize_test gtest gmock CayenneLPP)
+target_link_libraries(test_helpers gtest gmock CayenneLPP)
 
 add_test(
-        NAME memorysize_test
+        NAME test_helpers
         WORKING_DIRECTORY ${TEST_DIR}
-        COMMAND memorysize_test)
+        COMMAND test_helpers)
         
