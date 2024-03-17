@@ -34,3 +34,16 @@ plugins:
           doxy-cfg: # standard doxygen configuration (key: value)
             FILE_PATTERNS: "*.cpp *.hpp*" # specify file patterns to filter out
             RECURSIVE: True # recursive search in source directories
+nav:
+  - Home: "index.md"
+  - 'Design choices': "design_choices.md"
+  - 'Getting started': "getting_started.md"
+  - 'Examples': "examples.md"
+  - 'Library API': "api.md"
+  - Doxygen:
+    - "Complete Overview": "Doxygen/namespaceCayenneLPP.md"
+    - "Struct and Union List": "Doxygen/annotated.md"
+    - "CayenneLPP Class": "Doxygen/classCayenneLPP_1_1CayenneLPP.md"
+    - "CayenneLPP Helper functions": "Doxygen/namespace_member_functions.md"
+    - "CayenneLPP.hpp File": "Doxygen/CayenneLPP_8hpp.md"
+    - "CayenneTypes.hpp File": "Doxygen/CayenneTypes_8hpp.md"
