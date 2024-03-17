@@ -77,4 +77,5 @@ void loop()
         /* Reset the encoder */
         encoder.reset();
     }
+    delay(100);
 }
