@@ -89,22 +89,26 @@ namespace CayenneLPP
     /*!
      * Represents 3-axis gyroscopic values, for orientation or rotational motion detection.
     */
+#pragma pack(push, 1)
     typedef struct
     {
         uint16_t x;
         uint16_t y;
         uint16_t z;
     } GyroVal_t;
+#pragma pack(pop)
 
     /***
      * Represents 3-axis acceleration values, for motion or orientation detection.
     */
+#pragma pack(push, 1)
     typedef struct
     {
         uint16_t x;
         uint16_t y;
         uint16_t z;
     } AcceleroVal_t;
+#pragma pack(pop)
 
     /***
      * Represents GPS coordinates (latitude, longitude) and altitude, with compact bit field packing.

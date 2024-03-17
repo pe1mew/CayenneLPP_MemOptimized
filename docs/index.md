@@ -1,13 +1,6 @@
-# Welcome to MkDocs
+# Welcome
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
-
-## Commands
-
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+Welcome to the CayenneIMP GitHub project. This project is based on the original [CayenneLPP](https://github.com/myDevicesIoT/CayenneLPP) encoder library. But has some patches and additions which improves performance and decreases flash usage. 
 
 ## Project layout
 
