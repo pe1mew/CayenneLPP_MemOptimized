@@ -87,17 +87,17 @@ namespace CayenneLPP
          * \brief Store a new measurement in the encoder buffer
          * \return The cursor position in the internal buffer
         */
-        const uint8_t setMeasurement(const uint8_t channel, const Measurement_t measurement)
+        const uint8_t setMeasurement(const uint8_t channel, const Measurement_t* measurement)
         {
-            const size_t measurement_size = DetermineMeasurementSize(measurement.type);
+            const size_t measurement_size = DetermineMeasurementSize(measurement->type);
             size_t new_cursor_pos = (cursor + measurement_size + 2);
             if (new_cursor_pos > maxsize)
             {
                 return 0;
             }
             buffer[cursor++] = channel;
-            buffer[cursor++] = measurement.type;
-            memcpy((buffer + cursor), measurement.val.RawBytes, measurement_size);
+            buffer[cursor++] = measurement->type;
+            memcpy((buffer + cursor), measurement->val.RawBytes, measurement_size);
             cursor = new_cursor_pos;
             return cursor;
         }

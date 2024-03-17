@@ -159,7 +159,7 @@ TEST(SetRawBittest, Valueinput)
    for (uint8_t i = 0; i < 8; i++)
    {
       bitval = rand() > 1 ? 1 : 0;
-      result = CayenneLPP::SetRawBit(bitval, result);
+      CayenneLPP::SetRawBit(bitval, &result);
       res |= (bitval << i);
       expected_type = static_cast<CayenneLPP::CayenneMeasurementType_t>(CayenneLPP::MEASUREMENT_TYPE_RAWBIT_1 + i);
       EXPECT_EQ(result.val.RawBit, res);

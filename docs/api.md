@@ -52,7 +52,7 @@ namespace CayenneLPP
          * \return The cursor position in the internal buffer
         */
         const uint8_t setMeasurement(const uint8_t channel, 
-                                     const Measurement_t measurement);       
+                                     const Measurement_t *measurement);       
     };
 }
 ```
@@ -151,7 +151,7 @@ void main(){
 ### setMeasurement function
 ```cpp
 const uint8_t CayenneLPP::setMeasurement(const uint8_t channel,
-                                         const Measurement_t measurement);
+                                         const Measurement_t *measurement);
 ```
 The setMeasurement() function will store a new measurement inside the internal encoder buffer.
 
@@ -258,11 +258,11 @@ void main() {
 
     measurement = CayenneLPP::SetDigitalOutput(1);
 
-    encoder.setMeasurement(DIGITAL_TRANSMIT_CH, measurement);
+    encoder.setMeasurement(DIGITAL_TRANSMIT_CH, &measurement);
 
     measurement = CayenneLPP::SetAnalogOutput(2.3);
 
-    encoder.setMeasurement(ANALOG_TRANSMIT_CH, measurement);
+    encoder.setMeasurement(ANALOG_TRANSMIT_CH, &measurement);
 }
 ```
 
@@ -281,7 +281,7 @@ void main() {
     CayenneLPP::CayenneLPP<BUF_SIZE> encoder;
     CayenneLPP::Measurement_t measurement;
     
-    measurement = CayenneLPP::SetRawBit(1, measurement);
+    CayenneLPP::SetRawBit(1, &measurement);
 }
 ```
 
@@ -300,7 +300,7 @@ void main() {
     for(uint8_t i = 0; i < 8; i++) {
         const uint8_t bit_to_set = (i % 2); // Modulo 2 as example, 
                                             // could be digitalread
-        measurement = CayenneLPP::SetRawBit(bit_to_set, measurement);
+        CayenneLPP::SetRawBit(bit_to_set, &measurement);
     }
 }
 ```

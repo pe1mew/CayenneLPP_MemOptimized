@@ -59,7 +59,7 @@ void loop()
         /* Read the pin level */
         const uint8_t bit_to_set = digitalRead(pins[i]);
         /* Save the measurement in the measurement struct */
-        measurement = CayenneLPP::SetRawBit(bit_to_set, measurement);
+        CayenneLPP::SetRawBit(bit_to_set, &measurement);
         if (bit_to_set)
         {
             /* Button is pushed! Transmit the results after this loop */
@@ -69,7 +69,7 @@ void loop()
     if (transmit)
     {
         /* Get the current cursor pos, to know how much bytes to transmit */
-        const uint8_t amount_of_bytes = encoder.setMeasurement(MEASUREMENT_CHANNEL, measurement);
+        const uint8_t amount_of_bytes = encoder.setMeasurement(MEASUREMENT_CHANNEL, &measurement);
         /* Get the encoder buffer */
         const uint8_t* data = encoder.getBuffer();
         /* Send the bytes to TTN dash */

@@ -432,6 +432,7 @@ namespace CayenneLPP
         const MeasurementData_t Data = {.GPS = gps_val};
         return { MEASUREMENT_TYPE_GPS, Data};
     }
+
     /**
      * @brief Sets a raw bit value in a measurement.
      *
@@ -442,24 +443,23 @@ namespace CayenneLPP
      * @param raw_bit_val The raw bit value to set or append. Only the least significant bit is used.
      * @param prevMeasurement Reference to the previous measurement which will be updated
      *        with the new bit value.
-     * @return Measurement_t The updated measurement with the new bit value set or appended.
+     * @return void
      */
-    static inline Measurement_t SetRawBit(const uint8_t raw_bit_val, Measurement_t &prevMeasurement)
+    static inline void SetRawBit(const uint8_t raw_bit_val, Measurement_t *prevMeasurement)
     {
-        const uint8_t prevMeasurementWasBit = (prevMeasurement.type >= MEASUREMENT_TYPE_RAWBIT_1 && prevMeasurement.type < MEASUREMENT_TYPE_RAWBIT_8);
-        uint8_t bitpos = prevMeasurementWasBit ? ((prevMeasurement.type - MEASUREMENT_TYPE_RAWBIT_1) + 1): 0;
+        const uint8_t prevMeasurementWasBit = (prevMeasurement->type >= MEASUREMENT_TYPE_RAWBIT_1 && prevMeasurement->type < MEASUREMENT_TYPE_RAWBIT_8);
+        uint8_t bitpos = prevMeasurementWasBit ? ((prevMeasurement->type - MEASUREMENT_TYPE_RAWBIT_1) + 1): 0;
         if (prevMeasurementWasBit)
         {
-            prevMeasurement.val.RawBit |= (raw_bit_val << bitpos);
+            prevMeasurement->val.RawBit |= (raw_bit_val << bitpos);
             bitpos++;
-            prevMeasurement.type = static_cast<CayenneMeasurementType_t>((MEASUREMENT_TYPE_RAWBIT_1 + bitpos) - 1);
+            prevMeasurement->type = static_cast<CayenneMeasurementType_t>((MEASUREMENT_TYPE_RAWBIT_1 + bitpos) - 1);
         }
         else
         {
-            prevMeasurement.val.RawBit = (raw_bit_val << bitpos);
-            prevMeasurement.type = MEASUREMENT_TYPE_RAWBIT_1;
+            prevMeasurement->val.RawBit = (raw_bit_val << bitpos);
+            prevMeasurement->type = MEASUREMENT_TYPE_RAWBIT_1;
         }
-        return prevMeasurement;
     }
 
     /**
