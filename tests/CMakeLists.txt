@@ -1,5 +1,3 @@
-enable_testing()
-
 include(CTest)
 
 include(FetchContent)
@@ -21,6 +19,5 @@ target_link_libraries(test_helpers gtest gmock CayenneLPP)
 
 add_test(
         NAME test_helpers
-        WORKING_DIRECTORY ${TEST_DIR}
         COMMAND test_helpers)
         
