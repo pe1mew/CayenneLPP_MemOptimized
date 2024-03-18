@@ -1,41 +1,54 @@
 /*
-*  Copyright 2024 (C) CayenneLPP library
-*
-*  Licensed under the GPL License, Version 3.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  https://fsf.org/
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*
-* Authors: Adrian Sanchez del C. <asanchezdelc>
-*          Jarno           <JarnoW999>
-*          Majid           <majidsabbagh>
-*          Victor Hogeweij <Hoog-V>
-*/
+ *  Copyright 2024 (C) CayenneLPP library
+ *
+ *  Licensed under the GPL License, Version 3.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  https://fsf.org/
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ * Authors: Adrian Sanchez del C. <asanchezdelc>
+ *          Jarno           <JarnoW999>
+ *          Majid           <majidsabbagh>
+ *          Victor Hogeweij <Hoog-V>
+ */
 #ifndef CayenneTypes_HPP
 #define CayenneTypes_HPP
 namespace CayenneLPP
 {
-
 /*!
  * \brief The max size of the union
  */
 #define CAYENNE_MAX_UNION_SIZE (sizeof(GPSCoord_t))
 
+/*!
+ * \brief The ranges for the checking inside the helper functions!
+ */
+#define UINT24_MAX ((((2 ^ 24) - 1)))
+#define TEMP_MAX_RANGE (UINT16_MAX / 10)
+#define LUM_MAX_RANGE (UINT16_MAX / 100)
+#define PRESENCE_MIN_RANGE (0)
+#define DIG_GPIO_MIN_RANGE (0)
+#define RH_MAX_RANGE (UINT16_MAX / 2)
+#define ANALOG_VOLT_MAX_RANGE (UINT16_MAX / 100)
+#define BAROMETRIC_PRESS_MAX_RANGE (UINT16_MAX / 10)
+#define MAX_GPS_LAT_RANGE (UINT24_MAX / 10000)
+#define MAX_GPS_LONG_RANGE (UINT24_MAX / 10000)
+#define MAX_GPS_ALT_RANGE (UINT24_MAX / 100)
     /*!
      *  Represents a raw byte value, typically used for byte-oriented data operations.
-    */
+     */
     typedef uint8_t RawByteVal_t;
 
     /*!
      * Represents a single bit value, often used in bit manipulation or status indication.
-    */ 
+     */
     typedef uint8_t RawBitVal_t;
 
     // Represents a 16-bit word, commonly used for medium-range integer values.
@@ -43,52 +56,52 @@ namespace CayenneLPP
 
     /***
      * Represents a 32-bit word, used for larger integer values or raw data.
-    */
+     */
     typedef uint32_t Word32Val_t;
 
-    /*** 
+    /***
      * Represents a 32-bit floating-point number, used for precise numerical values.
-    */
+     */
     typedef float Float32Val_t;
 
     /***
      * Represents a digital GPIO (General Purpose Input/Output) value, for digital pin states.
-    */
+     */
     typedef uint8_t DigitalGPIOVal_t;
 
     /***
      * Represents a presence detection value, typically indicating detection (1) or absence (0).
-    */
+     */
     typedef uint8_t PresenceVal_t;
 
     /***
      * Represents a luminosity value, used for light intensity measurements.
-    */ 
+     */
     typedef uint16_t LuminosityVal_t;
 
     /***
      * Represents an analog GPIO value, for analog pin readings.
-    */
+     */
     typedef uint16_t AnalogGPIOVal_t;
 
     /***
      * Represents a temperature measurement, typically in a scaled format for precision.
-    */
+     */
     typedef uint16_t TemperatureVal_t;
 
     /***
      * Represents relative humidity as a percentage, in a scaled format for precision.
-    */
+     */
     typedef uint16_t RelativeHumidity_t;
 
     /***
      * Represents barometric pressure, typically in a scaled format to represent hPa values.
-    */
+     */
     typedef uint16_t BarometricPressure_t;
 
     /*!
      * Represents 3-axis gyroscopic values, for orientation or rotational motion detection.
-    */
+     */
 #pragma pack(push, 1)
     typedef struct
     {
@@ -100,7 +113,7 @@ namespace CayenneLPP
 
     /***
      * Represents 3-axis acceleration values, for motion or orientation detection.
-    */
+     */
 #pragma pack(push, 1)
     typedef struct
     {
@@ -112,7 +125,7 @@ namespace CayenneLPP
 
     /***
      * Represents GPS coordinates (latitude, longitude) and altitude, with compact bit field packing.
-    */
+     */
 #pragma pack(push, 1)
     typedef struct
     {
@@ -124,7 +137,7 @@ namespace CayenneLPP
 
     /***
      * Represents a union of all possible measurement values, allowing for diverse data types.
-    */
+     */
     typedef union
     {
         RawBitVal_t RawBit;
@@ -182,13 +195,13 @@ namespace CayenneLPP
         MeasurementData_t val;
     } Measurement_t;
 
-
     /**
      * @brief Clears currently used Measurement struct with invalid data
-     * 
+     *
      * @return Measurement_t A Measurement_t structure initialized with invalid data
      */
-    static inline Measurement_t ResetMeasurement() {
+    static inline Measurement_t ResetMeasurement()
+    {
         MeasurementData_t Data = {.RawByte = 0};
         return {MEASUREMENT_TYPE_INVALID, Data};
     }
@@ -207,7 +220,7 @@ namespace CayenneLPP
      */
     static inline Measurement_t SetDigitalOutput(const uint8_t digital_output_val)
     {
-        MeasurementData_t Data = {.DigitalGPIO = digital_output_val};
+        MeasurementData_t Data = {.DigitalGPIO = (digital_output_val > DIG_GPIO_MIN_RANGE)};
         return {MEASUREMENT_TYPE_DIGITAL_OUTPUT, Data};
     }
 
@@ -225,7 +238,7 @@ namespace CayenneLPP
      */
     static inline Measurement_t SetDigitalInput(const uint8_t digital_input_val)
     {
-        MeasurementData_t Data = {.DigitalGPIO = digital_input_val};
+        MeasurementData_t Data = {.DigitalGPIO = (digital_input_val > DIG_GPIO_MIN_RANGE)};
         return {MEASUREMENT_TYPE_DIGITAL_INPUT, Data};
     }
 
@@ -244,7 +257,7 @@ namespace CayenneLPP
      */
     static inline Measurement_t SetPresence(const uint8_t presence_val)
     {
-        MeasurementData_t Data = {.Presence = presence_val};
+        MeasurementData_t Data = {.Presence = (presence_val > PRESENCE_MIN_RANGE)};
         return {MEASUREMENT_TYPE_PRESENCE, Data};
     }
 
@@ -261,9 +274,10 @@ namespace CayenneLPP
      * @return Measurement_t A Measurement_t structure initialized with the luminosity value
      *         and the type set to MEASUREMENT_TYPE_LUMINOSITY.
      */
-    static inline Measurement_t SetLuminosity(const uint16_t luminosity_val)
+    static inline Measurement_t SetLuminosity(const float luminosity_val)
     {
-        MeasurementData_t Data = {.Luminosity = luminosity_val};
+        const float val = (luminosity_val <= LUM_MAX_RANGE) ? luminosity_val : LUM_MAX_RANGE;
+        MeasurementData_t Data = {.Luminosity = uint16_t(val * 100)};
         return {MEASUREMENT_TYPE_LUMINOSITY, Data};
     }
 
@@ -282,8 +296,9 @@ namespace CayenneLPP
      */
     static inline Measurement_t SetAnalogOutput(const float analog_output_val)
     {
-        MeasurementData_t Data = {.AnalogGPIO = uint16_t((analog_output_val * 100))};
-        return { MEASUREMENT_TYPE_ANALOG_OUTPUT, Data};
+        const float val = (analog_output_val <= ANALOG_VOLT_MAX_RANGE) ? analog_output_val : ANALOG_VOLT_MAX_RANGE;
+        MeasurementData_t Data = {.AnalogGPIO = uint16_t((val * 100))};
+        return {MEASUREMENT_TYPE_ANALOG_OUTPUT, Data};
     }
 
     /**
@@ -301,8 +316,9 @@ namespace CayenneLPP
      */
     static inline Measurement_t SetAnalogInput(const float analog_input_val)
     {
-        MeasurementData_t Data = {.AnalogGPIO = uint16_t((analog_input_val * 100))};
-        return { MEASUREMENT_TYPE_ANALOG_INPUT, Data};
+        const float val = (analog_input_val <= ANALOG_VOLT_MAX_RANGE) ? analog_input_val : ANALOG_VOLT_MAX_RANGE;
+        MeasurementData_t Data = {.AnalogGPIO = uint16_t((val * 100))};
+        return {MEASUREMENT_TYPE_ANALOG_INPUT, Data};
     }
 
     /**
@@ -321,8 +337,9 @@ namespace CayenneLPP
      */
     static inline Measurement_t SetTemperature(const float temperature_val)
     {
-        MeasurementData_t Data = {.Temperature = uint16_t(temperature_val * 10)};
-        return { MEASUREMENT_TYPE_TEMPERATURE, Data};
+        const float val = (temperature_val <= TEMP_MAX_RANGE) ? temperature_val : TEMP_MAX_RANGE;
+        MeasurementData_t Data = {.Temperature = uint16_t(val * 10)};
+        return {MEASUREMENT_TYPE_TEMPERATURE, Data};
     }
 
     /**
@@ -341,8 +358,9 @@ namespace CayenneLPP
      */
     static inline Measurement_t SetRelativeHumidity(const float humidity_val)
     {
-        MeasurementData_t Data = {.RelativeHumidity = uint16_t(humidity_val * 2)};
-        return { MEASUREMENT_TYPE_RELATIVE_HUMIDITY, Data};
+        const float val = (humidity_val <= RH_MAX_RANGE) ? humidity_val : RH_MAX_RANGE;
+        MeasurementData_t Data = {.RelativeHumidity = uint16_t(val * 2)};
+        return {MEASUREMENT_TYPE_RELATIVE_HUMIDITY, Data};
     }
 
     /**
@@ -361,8 +379,9 @@ namespace CayenneLPP
      */
     static inline Measurement_t SetBarometricPressure(const float barometric_pressure_val)
     {
-        MeasurementData_t Data = {.BarometricPressure = uint16_t(barometric_pressure_val * 10)};
-        return { MEASUREMENT_TYPE_BAROMETRIC_PRESSURE, Data};
+        const float val = (barometric_pressure_val <= BAROMETRIC_PRESS_MAX_RANGE) ? barometric_pressure_val : BAROMETRIC_PRESS_MAX_RANGE;
+        MeasurementData_t Data = {.BarometricPressure = uint16_t(val * 10)};
+        return {MEASUREMENT_TYPE_BAROMETRIC_PRESSURE, Data};
     }
 
     /**
@@ -385,7 +404,7 @@ namespace CayenneLPP
     {
         const AcceleroVal_t accelero_val = {.x = uint16_t(x * 1000), .y = uint16_t(y * 1000), .z = uint16_t(z * 1000)};
         const MeasurementData_t Data = {.Acceleration = accelero_val};
-        return { MEASUREMENT_TYPE_ACCELERATION, Data};
+        return {MEASUREMENT_TYPE_ACCELERATION, Data};
     }
 
     /**
@@ -408,7 +427,7 @@ namespace CayenneLPP
     {
         const GyroVal_t gyro_val = {.x = uint16_t(x * 100), .y = uint16_t(y * 100), .z = uint16_t(z * 100)};
         const MeasurementData_t Data = {.Gyro = gyro_val};
-        return { MEASUREMENT_TYPE_GYRO, Data};
+        return {MEASUREMENT_TYPE_GYRO, Data};
     }
 
     /**
@@ -428,9 +447,12 @@ namespace CayenneLPP
      */
     static inline Measurement_t SetGPS(const float latitude, const float longitude, const float altitude)
     {
-        const GPSCoord_t gps_val = {.latitude = uint32_t(latitude * 10000), .longitude = uint32_t(longitude * 10000), .altitude = uint32_t(altitude * 100)};
+        const float lat_val = latitude <= MAX_GPS_LAT_RANGE ? latitude : MAX_GPS_LAT_RANGE;
+        const float long_val = longitude <= MAX_GPS_LONG_RANGE ? longitude : MAX_GPS_LONG_RANGE;
+        const float alt_val = altitude <= MAX_GPS_ALT_RANGE ? altitude : MAX_GPS_ALT_RANGE;
+        const GPSCoord_t gps_val = {.latitude = uint32_t(alt_val * 10000), .longitude = uint32_t(long_val * 10000), .altitude = uint32_t(alt_val * 100)};
         const MeasurementData_t Data = {.GPS = gps_val};
-        return { MEASUREMENT_TYPE_GPS, Data};
+        return {MEASUREMENT_TYPE_GPS, Data};
     }
 
     /**
@@ -448,7 +470,7 @@ namespace CayenneLPP
     static inline void SetRawBit(const uint8_t raw_bit_val, Measurement_t *prevMeasurement)
     {
         const uint8_t prevMeasurementWasBit = (prevMeasurement->type >= MEASUREMENT_TYPE_RAWBIT_1 && prevMeasurement->type < MEASUREMENT_TYPE_RAWBIT_8);
-        uint8_t bitpos = prevMeasurementWasBit ? ((prevMeasurement->type - MEASUREMENT_TYPE_RAWBIT_1) + 1): 0;
+        uint8_t bitpos = prevMeasurementWasBit ? ((prevMeasurement->type - MEASUREMENT_TYPE_RAWBIT_1) + 1) : 0;
         if (prevMeasurementWasBit)
         {
             prevMeasurement->val.RawBit |= (raw_bit_val << bitpos);
@@ -477,7 +499,7 @@ namespace CayenneLPP
     {
         const RawByteVal_t raw_byte = raw_byte_val;
         const MeasurementData_t Data = {.RawByte = raw_byte};
-        return { MEASUREMENT_TYPE_RAWBYTE, Data};
+        return {MEASUREMENT_TYPE_RAWBYTE, Data};
     }
 
     /**
@@ -495,7 +517,7 @@ namespace CayenneLPP
     {
         const Word16Val_t word16 = word16_val;
         const MeasurementData_t Data = {.Word16 = word16};
-        return { MEASUREMENT_TYPE_RAWWORD16, Data};
+        return {MEASUREMENT_TYPE_RAWWORD16, Data};
     }
 
     /**
@@ -513,7 +535,7 @@ namespace CayenneLPP
     {
         const Word32Val_t word32 = word32_val;
         const MeasurementData_t Data = {.Word32 = word32};
-        return { MEASUREMENT_TYPE_RAWWORD32, Data};
+        return {MEASUREMENT_TYPE_RAWWORD32, Data};
     }
 
     /**
@@ -532,7 +554,7 @@ namespace CayenneLPP
     {
         const Float32Val_t float32 = float32_val;
         const MeasurementData_t Data = {.Float32 = float32};
-        return { MEASUREMENT_TYPE_RAWFLOAT32, Data};
+        return {MEASUREMENT_TYPE_RAWFLOAT32, Data};
     }
 }
 #endif
