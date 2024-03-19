@@ -1,3 +1,4 @@
+
 /**
  * @reference https://github.com/myDevicesIoT/cayenne-docs/blob/master/docs/LORA.md
  * @reference http://openmobilealliance.org/wp/OMNA/LwM2M/LwM2MRegistry.html#extlabel
@@ -36,40 +37,40 @@
  *  Direction           3332    132     84      2           1º Unsigned MSB
  *  Switch              3342    142     8E      1           0/1
 
- * 
- */
+* 
+*/
 
 // lppDecode decodes an array of bytes into an array of ojects, 
 // each one with the channel, the data type and the value.
 function lppDecode(bytes) {
-    
+
     var sensor_types = {
-        0  : {'size': 1, 'name': 'digital_in', 'signed': false, 'divisor': 1},
-        1  : {'size': 1, 'name': 'digital_out', 'signed': false, 'divisor': 1},
-        2  : {'size': 2, 'name': 'analog_in', 'signed': true , 'divisor': 100},
-        3  : {'size': 2, 'name': 'analog_out', 'signed': true , 'divisor': 100},
-        5  : {'size': 1, 'name': 'raw_byte', 'signed': true , 'divisor': 1},
-        6  : {'size': 2, 'name': 'raw_word16', 'signed': true, 'divisor': 1},
-        7  : {'size': 2, 'name': 'raw_word32', 'signed': true, 'divisor': 1},
-        8  : {'size': 2, 'name': 'raw_float32', 'signed': true, 'divisor': 1},
-        100: {'size': 4, 'name': 'generic', 'signed': false, 'divisor': 1},
-        101: {'size': 2, 'name': 'illuminance', 'signed': false, 'divisor': 1},
-        102: {'size': 1, 'name': 'presence', 'signed': false, 'divisor': 1},
-        103: {'size': 2, 'name': 'temperature', 'signed': true , 'divisor': 10},
-        104: {'size': 1, 'name': 'humidity', 'signed': false, 'divisor': 2},
-        113: {'size': 6, 'name': 'accelerometer', 'signed': true , 'divisor': 1000},
-        115: {'size': 2, 'name': 'barometer', 'signed': false, 'divisor': 10},
-        116: {'size': 1, 'name': 'single_raw_bit', 'signed': false, 'divisor': 1},
-        117: {'size': 1, 'name': 'two_raw_bits', 'signed': false, 'divisor': 1},
-        118: {'size': 1, 'name': 'three_raw_bits', 'signed': false, 'divisor': 1},
-        119: {'size': 1, 'name': 'four_raw_bits', 'signed': false, 'divisor': 1},
-        120: {'size': 1, 'name': 'five_raw_bits', 'signed': false, 'divisor': 1},
-        121: {'size': 1, 'name': 'six_raw_bits', 'signed': false, 'divisor': 1},
-		122: {'size': 1, 'name': 'seven_raw_bits', 'signed': false, 'divisor': 1},
-        123: {'size': 1, 'name': 'eight_raw_bits', 'signed': false, 'divisor': 1},
-        134: {'size': 6, 'name': 'gyrometer', 'signed': true , 'divisor': 100},
-        136: {'size': 9, 'name': 'gps', 'signed': true, 'divisor': [10000,10000,100]},
-        142: {'size': 1, 'name': 'switch', 'signed': false, 'divisor': 1},
+        0: { 'size': 1, 'name': 'digital_in', 'signed': false, 'divisor': 1 },
+        1: { 'size': 1, 'name': 'digital_out', 'signed': false, 'divisor': 1 },
+        2: { 'size': 2, 'name': 'analog_in', 'signed': true, 'divisor': 100 },
+        3: { 'size': 2, 'name': 'analog_out', 'signed': true, 'divisor': 100 },
+        5: { 'size': 1, 'name': 'raw_byte', 'signed': true, 'divisor': 1 },
+        6: { 'size': 2, 'name': 'raw_word16', 'signed': true, 'divisor': 1 },
+        7: { 'size': 4, 'name': 'raw_word32', 'signed': true, 'divisor': 1 },
+        8: { 'size': 4, 'name': 'raw_float32', 'signed': true, 'divisor': 1 },
+        100: { 'size': 4, 'name': 'generic', 'signed': false, 'divisor': 1 },
+        101: { 'size': 2, 'name': 'illuminance', 'signed': false, 'divisor': 1 },
+        102: { 'size': 1, 'name': 'presence', 'signed': false, 'divisor': 1 },
+        103: { 'size': 2, 'name': 'temperature', 'signed': true, 'divisor': 10 },
+        104: { 'size': 1, 'name': 'humidity', 'signed': false, 'divisor': 2 },
+        113: { 'size': 6, 'name': 'accelerometer', 'signed': true, 'divisor': 1000 },
+        115: { 'size': 2, 'name': 'barometer', 'signed': false, 'divisor': 10 },
+        116: { 'size': 1, 'name': 'single_raw_bit', 'signed': false, 'divisor': 1 },
+        117: { 'size': 1, 'name': 'two_raw_bits', 'signed': false, 'divisor': 1 },
+        118: { 'size': 1, 'name': 'three_raw_bits', 'signed': false, 'divisor': 1 },
+        119: { 'size': 1, 'name': 'four_raw_bits', 'signed': false, 'divisor': 1 },
+        120: { 'size': 1, 'name': 'five_raw_bits', 'signed': false, 'divisor': 1 },
+        121: { 'size': 1, 'name': 'six_raw_bits', 'signed': false, 'divisor': 1 },
+        122: { 'size': 1, 'name': 'seven_raw_bits', 'signed': false, 'divisor': 1 },
+        123: { 'size': 1, 'name': 'eight_raw_bits', 'signed': false, 'divisor': 1 },
+        134: { 'size': 6, 'name': 'gyrometer', 'signed': true, 'divisor': 100 },
+        136: { 'size': 9, 'name': 'gps', 'signed': true, 'divisor': [10000, 10000, 100] },
+        142: { 'size': 1, 'name': 'switch', 'signed': false, 'divisor': 1 },
     };
 
     function arrayToDecimal(stream, is_signed, divisor) {
@@ -97,7 +98,7 @@ function lppDecode(bytes) {
     var i = 0;
     while (i < bytes.length) {
 
-        var s_no   = bytes[i++];
+        var s_no = bytes[i++];
         var s_type = bytes[i++];
         if (typeof sensor_types[s_type] == 'undefined') {
             throw 'Sensor type error!: ' + s_type;
@@ -110,32 +111,114 @@ function lppDecode(bytes) {
             case 113:   // Accelerometer
             case 134:   // Gyrometer
                 s_value = {
-                    'x': arrayToDecimal(bytes.slice(i+0, i+2), type.signed, type.divisor),
-                    'y': arrayToDecimal(bytes.slice(i+2, i+4), type.signed, type.divisor),
-                    'z': arrayToDecimal(bytes.slice(i+4, i+6), type.signed, type.divisor)
-                };
-                break;
-            
-            case 136:   // GPS Location
-                s_value = {
-                    'latitude': arrayToDecimal(bytes.slice(i+0, i+3), type.signed, type.divisor[0]),
-                    'longitude': arrayToDecimal(bytes.slice(i+3, i+6), type.signed, type.divisor[1]),
-                    'altitude': arrayToDecimal(bytes.slice(i+6, i+9), type.signed, type.divisor[2])
-                };
-                break;
-			case 135:   // Colour
-				s_value = {
-                    'r': arrayToDecimal(bytes.slice(i+0, i+1), type.signed, type.divisor),
-                    'g': arrayToDecimal(bytes.slice(i+1, i+2), type.signed, type.divisor),
-                    'b': arrayToDecimal(bytes.slice(i+2, i+3), type.signed, type.divisor)
+                    'x': arrayToDecimal(bytes.slice(i + 0, i + 2), type.signed, type.divisor),
+                    'y': arrayToDecimal(bytes.slice(i + 2, i + 4), type.signed, type.divisor),
+                    'z': arrayToDecimal(bytes.slice(i + 4, i + 6), type.signed, type.divisor)
                 };
                 break;
 
+            case 136:   // GPS Location
+                s_value = {
+                    'latitude': arrayToDecimal(bytes.slice(i + 0, i + 3), type.signed, type.divisor[0]),
+                    'longitude': arrayToDecimal(bytes.slice(i + 3, i + 6), type.signed, type.divisor[1]),
+                    'altitude': arrayToDecimal(bytes.slice(i + 6, i + 9), type.signed, type.divisor[2])
+                };
+                break;
+            case 135:   // Colour
+                s_value = {
+                    'r': arrayToDecimal(bytes.slice(i + 0, i + 1), type.signed, type.divisor),
+                    'g': arrayToDecimal(bytes.slice(i + 1, i + 2), type.signed, type.divisor),
+                    'b': arrayToDecimal(bytes.slice(i + 2, i + 3), type.signed, type.divisor)
+                };
+                break;
+            case 116:
+                s_value = {
+                    'b0': (bytes[i++] & 1)
+                };
+                break;
+            case 117:
+                payload = bytes[i++];
+                s_value = {
+                    'b0': (payload & 1),
+                    'b1': ((payload & 2) >> 1)
+                };
+                break;
+            case 118:
+                payload = bytes[i++];
+                s_value = {
+                    'b0': (payload & 1),
+                    'b1': ((payload & 2) >> 1),
+                    'b2': ((payload & 4) >> 2)
+                };
+                break;
+            case 119:
+                payload = bytes[i++];
+                s_value = {
+                    'b0': (payload & 1),
+                    'b1': ((payload & 2) >> 1),
+                    'b2': ((payload & 4) >> 2),
+                    'b3': ((payload & 8) >> 3)
+                };
+                break;
+            case 120:
+                payload = bytes[i++];
+                s_value = {
+                    'b0': (payload & 1),
+                    'b1': ((payload & 2) >> 1),
+                    'b2': ((payload & 4) >> 2),
+                    'b3': ((payload & 8) >> 3),
+                    'b4': ((payload & 16) >> 4)
+                };
+                break;
+            case 121:
+                payload = bytes[i++];
+                s_value = {
+                    'b0': (payload & 1),
+                    'b1': ((payload & 2) >> 1),
+                    'b2': ((payload & 4) >> 2),
+                    'b3': ((payload & 8) >> 3),
+                    'b4': ((payload & 16) >> 4),
+                    'b5': ((payload & 32) >> 5)
+                };
+                break;
+            case 122:
+                payload = bytes[i++];
+                s_value = {
+                    'b0': (payload & 1),
+                    'b1': ((payload & 2) >> 1),
+                    'b2': ((payload & 4) >> 2),
+                    'b3': ((payload & 8) >> 3),
+                    'b4': ((payload & 16) >> 4),
+                    'b5': ((payload & 32) >> 5),
+                    'b6': ((payload & 64) >> 6)
+                };
+                break;
+            case 123:
+                payload = bytes[i++];
+                s_value = {
+                    'b0': (payload & 1),
+                    'b1': ((payload & 2) >> 1),
+                    'b2': ((payload & 4) >> 2),
+                    'b3': ((payload & 8) >> 3),
+                    'b4': ((payload & 16) >> 4),
+                    'b5': ((payload & 32) >> 5),
+                    'b6': ((payload & 64) >> 6),
+                    'b7': ((payload & 128) >> 7)
+                };
+                break;
+            case 8:
+                payload = new Uint8Array(bytes.slice(i, i + 4))
+                let float32Array = new Float32Array(payload.buffer);
+                let float32 = float32Array[0];
+                s_value = {
+                    'float': float32
+                };
+                break;
             default:    // All the rest
                 s_value = arrayToDecimal(bytes.slice(i, i + type.size), type.signed, type.divisor);
                 break;
         }
-        
+
         sensors.push({
             'channel': s_no,
             'type': s_type,
@@ -159,21 +242,15 @@ function decodeUplink(input) {
 
     // flat output (like original decoder):
     var response = {};
-    lppDecode(bytes, 1).forEach(function(field) {
+    lppDecode(bytes, 1).forEach(function (field) {
         response[field['name'] + '_' + field['channel']] = field['value'];
     });
     return {
         data: response
-   };
+    };
 
     // field output
     //return {'fields': lppDecode(bytes, fPort)};
 
 }
 
-// To use with NodeRED
-// Assuming msg.payload contains the LPP-encoded byte array
-/*
-msg.fields = lppDecode(msg.payload);
-return msg;
-*/
