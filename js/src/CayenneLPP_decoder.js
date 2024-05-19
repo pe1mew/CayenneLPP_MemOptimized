@@ -54,7 +54,7 @@ function lppDecode(bytes) {
         7: { 'size': 4, 'name': 'raw_word32', 'signed': true, 'divisor': 1 },
         8: { 'size': 4, 'name': 'raw_float32', 'signed': true, 'divisor': 1 },
         100: { 'size': 4, 'name': 'generic', 'signed': false, 'divisor': 1 },
-        101: { 'size': 2, 'name': 'illuminance', 'signed': false, 'divisor': 1 },
+        101: { 'size': 2, 'name': 'luminosity', 'signed': false, 'divisor': 1 },
         102: { 'size': 1, 'name': 'presence', 'signed': false, 'divisor': 1 },
         103: { 'size': 2, 'name': 'temperature', 'signed': true, 'divisor': 10 },
         104: { 'size': 1, 'name': 'humidity', 'signed': false, 'divisor': 2 },
